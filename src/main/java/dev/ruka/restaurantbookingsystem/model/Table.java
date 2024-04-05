@@ -29,5 +29,5 @@ public class Table {
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
-    private Booking reserva;
+    private Booking reserva = null;
 }

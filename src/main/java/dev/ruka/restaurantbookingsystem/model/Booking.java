@@ -23,11 +23,11 @@ public class Booking {
     @Column(nullable = false)
     private String id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String reservante;
 
     @Column(nullable = false)
-    private int num_pessoas;
+    private int numPessoas;
 
     @Column(nullable = false)
     private LocalDate data;
