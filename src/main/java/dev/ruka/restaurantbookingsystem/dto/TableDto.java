@@ -1,21 +1,28 @@
 package dev.ruka.restaurantbookingsystem.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.ruka.restaurantbookingsystem.model.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@Component
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class TableDto {
     @NotBlank
     private String numero;
     @Min(value = 1L, message = "Uma mesa deve ter no mínimo uma cadeira")
-    @NotBlank
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Integer num_cadeiras;
 
     public Table toEntity(){

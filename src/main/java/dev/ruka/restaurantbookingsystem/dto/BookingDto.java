@@ -2,35 +2,43 @@ package dev.ruka.restaurantbookingsystem.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.ruka.restaurantbookingsystem.model.Booking;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
-@Component
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class BookingDto {
 
-    @NotBlank
+    @NotEmpty
     private String reservante;
 
-    @NotBlank
-    private int numPessoas;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
+    private Integer numPessoas;
 
-    @NotBlank
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd/MM/yyyy")
     private LocalDate data;
 
-    @NotBlank
-    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm")
+    @NotNull
     private LocalTime hora;
+
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+    @NotNull
+    private List<String> mesas;
 
     public Booking toBooking(){
         Booking booking = new Booking();

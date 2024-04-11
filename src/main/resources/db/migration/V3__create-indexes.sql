@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX tbl_table_numero_index ON tbl_table(numero)
+CREATE UNIQUE INDEX tbl_table_numero_index ON tbl_table(numero);

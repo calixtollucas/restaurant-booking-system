@@ -1,6 +1,7 @@
 package dev.ruka.restaurantbookingsystem.controllers;
 
 import dev.ruka.restaurantbookingsystem.dto.TableDto;
+import dev.ruka.restaurantbookingsystem.exceptions.BusinessException;
 import dev.ruka.restaurantbookingsystem.model.Table;
 import dev.ruka.restaurantbookingsystem.services.TableService;
 import jakarta.validation.Valid;
@@ -34,9 +35,14 @@ public class TableController {
     }
 
     @GetMapping("/numero/{numero}")
-    public @ResponseBody TableDto getTableByNumero(@PathVariable("numero") String numero){
+    public ResponseEntity<TableDto> getTableByNumero(@PathVariable("numero") String numero){
         Table table = service.getTableByNumero(numero);
-        return new TableDto(table.getNumero(), table.getNum_cadeiras());
+        if(table == null){
+            throw new BusinessException("Esta mesa não existe");
+        } else {
+            return ResponseEntity.ok().body(new TableDto(table.getNumero(), table.getNum_cadeiras()));
+        }
+
     }
 
     //retorna 0 se a mesa não estiver ocupada e 1 se estiver.

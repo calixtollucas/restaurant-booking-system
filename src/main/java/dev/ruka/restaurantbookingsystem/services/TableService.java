@@ -1,6 +1,7 @@
 package dev.ruka.restaurantbookingsystem.services;
 
-import dev.ruka.restaurantbookingsystem.exceptions.ServerSideException;
+import dev.ruka.restaurantbookingsystem.exceptions.BusinessException;
+import dev.ruka.restaurantbookingsystem.model.Booking;
 import dev.ruka.restaurantbookingsystem.model.Table;
 import dev.ruka.restaurantbookingsystem.repositories.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class TableService {
 
     public void create_table(Table table){
         if(getTableByNumero(table.getNumero()) != null){
-            throw new ServerSideException("Uma mesa com este número já existe");
+            throw new BusinessException("Uma mesa com este número já existe");
         } else {
             repository.save(table);
         }
@@ -24,12 +25,7 @@ public class TableService {
 
     public Table getTableByNumero(String numero){
         Table table = repository.findByNumero(numero);
-
-        if(table == null){
-            throw new ServerSideException("Esta mesa não existe");
-        } else {
             return table;
-        }
     }
 
     public List<Table> getAllTables(){
@@ -47,4 +43,23 @@ public class TableService {
     public void deleteTableByNumero(String numero){
         repository.deleteByNumero(numero);
     }
+
+    public void setBookingId(List<String> mesas, Booking booking){
+            for (String mesa : mesas){
+                Table toBeUpdated= repository.findByNumero(mesa);
+                toBeUpdated.setReserva(booking);
+                repository.save(toBeUpdated);
+            }
+
+    }
+
+//    public void unsubscribeTableBookingId(Booking booking){
+//        List<Table> tables = repository.findByBookingId(booking);
+//        for (Table table : tables){
+//            table.setReserva(null);
+//            repository.save(table);
+//        }
+//    }
+
+
 }
