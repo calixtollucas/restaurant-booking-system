@@ -1,5 +1,7 @@
 package dev.ruka.restaurantbookingsystem.services;
 
+import dev.ruka.restaurantbookingsystem.dto.TableDto;
+import dev.ruka.restaurantbookingsystem.dto.UpdateTableDto;
 import dev.ruka.restaurantbookingsystem.exceptions.BusinessException;
 import dev.ruka.restaurantbookingsystem.model.Booking;
 import dev.ruka.restaurantbookingsystem.model.Table;
@@ -53,13 +55,29 @@ public class TableService {
 
     }
 
-//    public void unsubscribeTableBookingId(Booking booking){
-//        List<Table> tables = repository.findByBookingId(booking);
-//        for (Table table : tables){
-//            table.setReserva(null);
-//            repository.save(table);
-//        }
-//    }
+    public void unsubscribeTableByNumero(String numero){
+        Table table = getTableByNumero(numero);
+        if(table.getReserva() == null){
+            throw new BusinessException("Esta mesa já está livre");
+        } else {
+            table.setReserva(null);
+            repository.save(table);
+        }
+    }
+
+    //UPDATE TABLE
+    public void updateTable(UpdateTableDto updateTable, String numero){
+        Table toBeUpdated = getTableByNumero(numero);
+        if(toBeUpdated.getReserva() != null){
+            throw new BusinessException("Esta mesa está ocupada, desocupe ela para que possa atualizar");
+        }
+        if(updateTable.getNumero() != null){
+            toBeUpdated.setNumero(updateTable.getNumero());
+        } else if(updateTable.getNumCadeiras() != null){
+            toBeUpdated.setNum_cadeiras(updateTable.getNumCadeiras());
+        }
+        repository.save(toBeUpdated);
+    }
 
 
 }

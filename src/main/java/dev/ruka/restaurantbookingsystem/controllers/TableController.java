@@ -1,6 +1,7 @@
 package dev.ruka.restaurantbookingsystem.controllers;
 
 import dev.ruka.restaurantbookingsystem.dto.TableDto;
+import dev.ruka.restaurantbookingsystem.dto.UpdateTableDto;
 import dev.ruka.restaurantbookingsystem.exceptions.BusinessException;
 import dev.ruka.restaurantbookingsystem.model.Table;
 import dev.ruka.restaurantbookingsystem.services.TableService;
@@ -54,6 +55,19 @@ public class TableController {
         } else {
             return 0;
         }
+    }
+
+    @PutMapping("/{tableNumber}")
+    public ResponseEntity<String> updateTable(@RequestBody UpdateTableDto updateTableDto,
+                                              @PathVariable String tableNumber){
+        service.updateTable(updateTableDto, tableNumber);
+        return ResponseEntity.ok().body("Mesa "+tableNumber+" atualizada com sucesso");
+    }
+
+    @PutMapping("/unsubscribe/{tableNumber}")
+    public ResponseEntity<String> unsubscribeTable(@PathVariable String tableNumber){
+        service.unsubscribeTableByNumero(tableNumber);
+        return ResponseEntity.ok().body("Mesa "+tableNumber+" liberada com sucesso");
     }
 
     @DeleteMapping("/delete/{numero}")

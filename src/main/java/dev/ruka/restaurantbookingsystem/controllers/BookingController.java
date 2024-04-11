@@ -1,6 +1,7 @@
 package dev.ruka.restaurantbookingsystem.controllers;
 
 import dev.ruka.restaurantbookingsystem.dto.BookingDto;
+import dev.ruka.restaurantbookingsystem.dto.UpdateBookingDto;
 import dev.ruka.restaurantbookingsystem.model.Booking;
 import dev.ruka.restaurantbookingsystem.services.BookingService;
 import jakarta.validation.Valid;
@@ -25,6 +26,13 @@ public class BookingController {
     public ResponseEntity<String> postBooking(@Valid @RequestBody BookingDto bookingDto){
         service.createBooking(bookingDto);
         return ResponseEntity.ok().body("Reservado com sucesso!");
+    }
+
+    @PutMapping("/{reservante}")
+    public ResponseEntity<String> updateBooking(@RequestBody UpdateBookingDto updateBookingDto, @PathVariable String reservante){
+        service.updateBooking(updateBookingDto, reservante);
+
+        return ResponseEntity.ok().body("Reserva de "+reservante+" atualizada com sucesso!");
     }
 
     @DeleteMapping("/delete/{reservante}")

@@ -1,5 +1,6 @@
 package dev.ruka.restaurantbookingsystem.services;
 import dev.ruka.restaurantbookingsystem.dto.BookingDto;
+import dev.ruka.restaurantbookingsystem.dto.UpdateBookingDto;
 import dev.ruka.restaurantbookingsystem.exceptions.BusinessException;
 import dev.ruka.restaurantbookingsystem.model.Booking;
 import dev.ruka.restaurantbookingsystem.model.Table;
@@ -50,5 +51,25 @@ public class BookingService {
 
     public boolean existsByReservante(String reservante){
         return repository.existsByReservante(reservante);
+    }
+
+    //UPDATE BOOKING
+    public void updateBooking(UpdateBookingDto updateBooking, String reservante){
+        //verifica se a reserva existe
+        Booking toBeUpdated = getBookingByReservante(reservante);
+        if(toBeUpdated == null){
+            throw new BusinessException("Este booking não existe");
+        }
+        if(updateBooking.getNumPessoas() != null){
+            toBeUpdated.setNumPessoas(updateBooking.getNumPessoas());
+        }
+        if(updateBooking.getData() != null){
+            toBeUpdated.setData(updateBooking.getData());
+        }
+        if(updateBooking.getHora() != null){
+            toBeUpdated.setHora(updateBooking.getHora());
+        }
+
+        repository.save(toBeUpdated);
     }
 }

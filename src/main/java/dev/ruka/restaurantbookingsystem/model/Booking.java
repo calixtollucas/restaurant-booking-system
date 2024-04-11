@@ -27,7 +27,7 @@ public class Booking {
     private String reservante;
 
     @Column(nullable = false)
-    private int numPessoas;
+    private Integer numPessoas;
 
     @Column(nullable = false)
     private LocalDate data;
