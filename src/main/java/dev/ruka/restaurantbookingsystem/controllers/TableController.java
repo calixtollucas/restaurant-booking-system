@@ -72,11 +72,7 @@ public class TableController {
 
     @DeleteMapping("/delete/{numero}")
     public ResponseEntity<String> deleteTableByNumero(@PathVariable("numero") String numero){
-        if(service.existsByNumero(numero)){
-            service.deleteTableByNumero(numero);
-            return ResponseEntity.ok().body("Deletado com sucesso");
-        } else {
-            return ResponseEntity.badRequest().body("Esta mesa não existe");
-        }
+        service.deleteTableByNumero(numero);
+        return ResponseEntity.ok().body("Deletado com sucesso");
     }
 }

@@ -43,7 +43,15 @@ public class TableService {
     }
 
     public void deleteTableByNumero(String numero){
-        repository.deleteByNumero(numero);
+        Table table = repository.findByNumero(numero);
+        if(table.getReserva()!= null){
+            throw new BusinessException("Esta mesa está ocupada, desocupe-a para que possa ser excluída da base");
+        }
+        if(table == null){
+            throw new BusinessException("Esta mesa não exsite");
+        } else {
+            repository.delete(table);
+        }
     }
 
     public void setBookingId(List<String> mesas, Booking booking){

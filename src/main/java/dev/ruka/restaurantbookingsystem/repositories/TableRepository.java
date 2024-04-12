@@ -18,9 +18,6 @@ public interface TableRepository extends JpaRepository<Table, String> {
     @Query("SELECT CASE WHEN t.reserva IS NOT NULL THEN true ELSE false END FROM Table t WHERE t.numero = ?1")
     boolean isTableOccupied(String numero);
 
-    @Query("DELETE FROM Table t WHERE t.reserva = ?1")
-    void deleteByNumero(String numero);
-
     @Query("SELECT CASE WHEN t IS NOT NULL THEN true ELSE false END FROM Table t WHERE t.numero = ?1")
     boolean existsByNumero(String numero);
 
